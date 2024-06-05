@@ -58,7 +58,7 @@ Install Picom if you haven't already. Check the Archcraft OS documentation for t
 > [!CAUTION]
 > For **none Archcraft users** you can apply this theme by copying
 > polybar, rofi, dunst, picom.conf and Alacrity/kitty(~/.config/kitty).
-> As text editor I use helix (~/.config/helix)
+> As text editor I use helix (~/.config/helix) and I used starship as prompt
 
 ```bash
 # only for Archcraft users
