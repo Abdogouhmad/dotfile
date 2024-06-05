@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-## Copyright (C) 2020-2023 Aditya Shakya <adi1090x@gmail.com>
+## Copyright (C) 2020-2024 Aditya Shakya <adi1090x@gmail.com>
 ##
 ## BSPWM config file for Archcraft
 
@@ -11,6 +11,7 @@ BSPDIR="$HOME/.config/bspwm"
 
 ## Export bspwm/bin dir to PATH
 export PATH="${PATH}:$BSPDIR/scripts"
+export XDG_CURRENT_DESKTOP='bspwm'
 
 ## Run java applications without issues
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -19,30 +20,58 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 ## Current theme ---------------------------------------------#
 
 ## Bspwm colors
-BSPWM_FBC='#81A1C1'
-BSPWM_NBC='#2E3440'
-BSPWM_ABC='#B48EAD'
-BSPWM_PFC='#A3BE8C'
+BSPWM_FBC='#00BCD4'
+BSPWM_NBC='#222d32'
+BSPWM_ABC='#ba68c8'
+BSPWM_PFC='#61c766'
 
 ## Bspwm appearance
-BSPWM_BORDER='1'
+BSPWM_BORDER='2'
 BSPWM_GAP='10'
 BSPWM_SRATIO='0.50'
 
 ## Configurations --------------------------------------------#
 
-## Manager Workspaces
-workspaces() {
-	name=1
-	for monitor in `bspc query -M`; do
-		#bspc monitor ${monitor} -n "$name" -d '1' '2' '3' '4' '5' '6' '7' '8'
-		#bspc monitor ${monitor} -n "$name" -d 'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H'
-		#bspc monitor ${monitor} -n "$name" -d 'I' 'II' 'III' 'IV' 'V' 'VI' 'VII' 'VIII'
-		bspc monitor ${monitor} -n "$name" -d '' '' '' '' '' '' '' ''
-		let name++
+## Manage Monitors and Workspaces
+##
+## Default Setup (Set 8 workspaces on each monitor)
+default_workspaces() {
+	for monitor in `xrandr -q | grep -w 'connected' | cut -d' ' -f1`; do
+		bspc monitor "$monitor" -d '' '' '' '' '' '' '' ''
 	done
 }
-workspaces
+
+## Two Monitors Setup (Laptop and external monitor, set 4 workspaces on each monitor)
+two_monitors_workspaces() {
+	# change these values according to your system
+	# you can use `xrandr -q` to get the names of monitors
+	INTERNAL_MONITOR="eDP"
+	EXTERNAL_MONITOR="HDMI-A-0"
+	if [[ $(xrandr -q | grep "${EXTERNAL_MONITOR} connected") ]]; then
+		bspc monitor "$EXTERNAL_MONITOR" -d '' '' '' ''
+		bspc monitor "$INTERNAL_MONITOR" -d '' '' '' ''
+		bspc wm -O "$EXTERNAL_MONITOR" "$INTERNAL_MONITOR"
+	else
+		bspc monitor "$INTERNAL_MONITOR" -d '' '' '' '' '' '' '' ''
+	fi
+}
+
+## Three Monitors Setup (Laptop and two external monitor, 3-2-3 workspaces)
+three_monitors_workspaces() {
+	# again, change these values accordingly
+	MONITOR_1="eDP"
+	MONITOR_2="HDMI-A-0"
+	MONITOR_3="HDMI-A-1"
+	bspc monitor "$MONITOR_1" -d '' ''
+	bspc monitor "$MONITOR_2" -d '' '' ''
+	bspc monitor "$MONITOR_3" -d '' '' ''
+	bspc wm -O "$MONITOR_2" "$MONITOR_1" "$MONITOR_3"
+}
+
+## Uncomment only one function according to your needs
+default_workspaces
+#two_monitors_workspaces
+#three_monitors_workspaces
 
 ## Apply bspwm configurations
 bspc config border_width "$BSPWM_BORDER"
@@ -66,23 +95,15 @@ bspc wm --adopt-orphans
 
 ## Window rules ----------------------------------------------#
 
-# remove all rules first
+## remove all rules first
 bspc rule -r *:*
 
 ## 1 > terminal (always open terminal on workspace-1)
 bspc rule -a Alacritty desktop='^1' follow=on focus=on
 bspc rule -a Xfce4-terminal desktop='^1' follow=on focus=on
-
 ## 2 > web (always open web browser on workspace-2)
-# bspc rule -a firefox desktop='^2' follow=on focus=on
-# bspc rule -a chromium desktop='^2' follow=on focus=on
-# bspc rule -a firefox desktop='^2' follow=on focus=on
-# bspc rule -a chromium desktop='^2' follow=on focus=on
-# Firefox Developer Edition
-
-declare -a browsers=("firefoxdeveloperedition:Navigator" "Google-chrome-unstable:google-chrome-unstable")
-for i in "${browsers[@]}"; do
-  bspc rule -a "$i" desktop=^2 follow=on focus=on; done
+bspc rule -a firefoxdeveloperedition desktop='^2' follow=on focus=on
+bspc rule -a chromium desktop='^2' follow=on focus=on
 
 ## 3 > files (always open file manager on workspace-3)
 declare -a files=(Pcmanfm Thunar qBittorrent)
@@ -90,26 +111,26 @@ for i in "${files[@]}"; do
    bspc rule -a "$i" desktop='^3' follow=on focus=on; done
 
 ## 4 > code (always open editors on workspace-4)
-declare -a code=(Geany code-oss sublime-text Code:code)
-for i in "${code[@]}"; do
-   bspc rule -a "$i" desktop='^4' follow=on focus=on; done
+declare -a code=(Geany code-oss Code)
+for i in ${code[@]}; do
+   bspc rule -a $i desktop='^4' follow=on focus=on; done
 
 ## 5 > office and docs (always open office/doc apps on workspace-5)
 declare -a office=(Gucharmap Atril Evince \
 libreoffice-writer libreoffice-calc libreoffice-impress \
-libreoffice-startcenter libreoffice Soffice *:libreofficedev *:soffice \ "obsidian:obsidian")
-for i in "${office[@]}"; do
-   bspc rule -a "$i" desktop='^5' follow=on focus=on; done
+libreoffice-startcenter libreoffice Soffice *:libreofficedev *:soffice)
+for i in ${office[@]}; do
+   bspc rule -a $i desktop='^5' follow=on focus=on; done
 
 ## 6 > communication (always open communication apps on workspace-6)
-declare -a comm=(Thunderbird TelegramDesktop discord )
-for i in "${comm[@]}"; do
-   bspc rule -a "$i" desktop='^6' follow=on focus=on; done
+declare -a comm=(Thunderbird TelegramDesktop Hexchat discord)
+for i in ${comm[@]}; do
+   bspc rule -a $i desktop='^6' follow=on focus=on; done
 
 ## 7 > media (always open media apps on workspace-7)
-declare -a media=(Audacity Music MPlayer Lxmusic Inkscape Gimp-2.10 obs "Spotify:spotify" "Stremio:Stremio")
-for i in "${media[@]}"; do
-   bspc rule -a "$i" desktop='^7' follow=on focus=on; done
+declare -a media=(Audacity Music MPlayer Lxmusic Inkscape Gimp-2.10 obs Spotify)
+for i in ${media[@]}; do
+   bspc rule -a $i desktop='^7'  follow=on focus=on; done
 
 ## 8 > system (always open system apps on workspace-8)
 bspc rule -a 'VirtualBox Manager' desktop='^8' follow=on focus=on
@@ -117,14 +138,14 @@ bspc rule -a GParted desktop='^8' follow=on focus=on
 declare -a settings=(Lxappearance Lxtask Lxrandr Arandr \
 System-config-printer.py Pavucontrol Exo-helper-1 \
 Xfce4-power-manager-settings)
-for i in "${settings[@]}"; do
-   bspc rule -a "$i" desktop='^8' state=floating follow=on focus=on; done
+for i in ${settings[@]}; do
+   bspc rule -a $i desktop='^8' state=floating follow=on focus=on; done
 
 ## Always Floating Apps
 declare -a floating=(alacritty-float Pcmanfm Thunar Onboard Yad 'Firefox:Places' \
-Viewnior feh Nm-connection-editor)
-for i in "${floating[@]}"; do
-   bspc rule -a "$i" state=floating follow=on focus=on; done
+Viewnior feh Nm-connection-editor calamares Calamares)
+for i in ${floating[@]}; do
+   bspc rule -a $i state=floating follow=on focus=on; done
 
 bspc rule -a Conky state=floating manage=off
 bspc rule -a stalonetray state=floating manage=off

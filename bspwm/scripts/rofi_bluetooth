@@ -18,7 +18,7 @@
 
 # Import Current Theme
 DIR="$HOME/.config/bspwm"
-STYLE="default"
+STYLE="forest"
 RASI="$DIR/themes/$STYLE/rofi/bluetooth.rasi"
 
 # Constants

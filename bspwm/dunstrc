@@ -1,23 +1,21 @@
-## Copyright (C) 2020-2023 Aditya Shakya <adi1090x@gmail.com>
-
 [global]
 monitor = 0
 follow = mouse
 width = 300
 height = 80
 origin = top-right
-offset = 10x42
-corner_radius = 12
+offset = 10x40
+corner_radius = 5
 scale = 0
 notification_limit = 0
 progress_bar = true
 progress_bar_height = 80
-progress_bar_frame_width = 1
+progress_bar_frame_width = 2
 progress_bar_min_width = 300
 progress_bar_max_width = 300
 indicate_hidden = yes
-transparency = 10
-separator_height = 1
+transparency = 30
+separator_height = 2
 padding = 15
 horizontal_padding = 15
 text_icon_padding = 0
@@ -27,7 +25,7 @@ separator_color = frame
 sort = yes
 idle_threshold = 120
 font = Iosevka Custom 9
-line_height = 1
+line_height = 2
 markup = full
 format = %s\n%b
 alignment = center
@@ -54,18 +52,18 @@ class = Dunst
 
 [urgency_low]
 timeout = 2
-background = "#2E3440"
-  foreground = "#D8DEE9"
-  frame_color = "#81A1C1"
+background = "#26163B"
+foreground = "#CBB3FB"
+frame_color = "#4C44C8"
 
-  [urgency_normal]
-  timeout = 5
-  background = "#2E3440"
-  foreground = "#D8DEE9"
-  frame_color = "#81A1C1"
+[urgency_normal]
+timeout = 5
+background = "#1B1C26"
+foreground = "#E5E8FB"
+frame_color = "#5C546C"
 
-  [urgency_critical]
-  timeout = 0
-  background = "#2E3440"
-  foreground = "#BF616A"
-  frame_color = "#BF616A"
+[urgency_critical]
+timeout = 0
+background = "#0B0A1B"
+foreground = "#E21650"
+frame_color = "#E21650"

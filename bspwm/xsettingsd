@@ -1,8 +1,8 @@
-## Copyright (C) 2020-2023 Aditya Shakya <adi1090x@gmail.com>
+## Copyright (C) 2020-2024 Aditya Shakya <adi1090x@gmail.com>
 
-Net/ThemeName "Arc-Dark"
-Net/IconThemeName "Arc-Circle"
-Gtk/CursorThemeName "Qogirr"
+Net/ThemeName "Adapta-Nokto"
+Net/IconThemeName "Archcraft-Dark"
+Gtk/CursorThemeName "Pear"
 Net/EnableEventSounds "0"
 Net/EnableInputFeedbackSounds "0"
 Xft/DPI "-1"

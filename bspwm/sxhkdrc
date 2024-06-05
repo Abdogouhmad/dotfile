@@ -6,7 +6,11 @@
 
 # Terminal (alacritty)
 super + Return
-	bspterm
+	kitty
+	# bspterm
+# start emacs
+alt + Return
+	emacs
 
 # Terminal (floating)
 super + shift + Return
@@ -179,5 +183,8 @@ super + {Tab,grave}
 super + shift + {d, t, s, c, o, r, b}
   {discord, telegram-desktop, spotify, code, stremio, google-chrome-unstable, obsidian }
 
+# warp Terminal
+ctrl + alt + w
+  warp-terminal
 ##---------- EOF ----------##
 

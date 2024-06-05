@@ -1,0 +1,3 @@
+#!/bin/sh
+# feh --no-fehbg --bg-fill '/home/thorfinn/.config/bspwm/themes/forest/wallpaper' 
+feh --no-fehbg --bg-fill '/usr/share/backgrounds/Sasuke.jpg' 

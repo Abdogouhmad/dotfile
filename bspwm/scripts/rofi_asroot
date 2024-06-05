@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-## Copyright (C) 2020-2023 Aditya Shakya <adi1090x@gmail.com>
+## Copyright (C) 2020-2024 Aditya Shakya <adi1090x@gmail.com>
 
 # Import Current Theme
 DIR="$HOME/.config/bspwm"
-STYLE="default"
+STYLE="forest"
 RASI="$DIR/themes/$STYLE/rofi/asroot.rasi"
 
 # Theme Elements
 prompt='Root'
 mesg="Run Applications As Root"
-term='alacritty --class alacritty-float,alacritty-float --config-file /root/.config/bspwm/alacritty/alacritty.yml'
+term='alacritty --class alacritty-float,alacritty-float --config-file /root/.config/bspwm/alacritty/alacritty.toml'
 
 # Options
 layout=`cat ${RASI} | grep 'USE_ICON' | cut -d'=' -f2`
