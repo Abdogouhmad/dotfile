@@ -32,6 +32,7 @@ function install_packages() {
             "xorg"
             "xorg-xinit"
             "xorg-server"
+            "playerctl"
             # tools
             "xdotool"
             "maim"
