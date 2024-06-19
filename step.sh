@@ -20,62 +20,62 @@ function install_packages() {
     cprintln "${MAGENTA}" "Installing packages..."
 
     PACKAGES=(
-            # Important for sys
-            "kitty"
-            "polybar"
-            "picom"
-            "zsh"
-            "starship" # shell prompt
-            "git"
-            "dunst"
-            "thunar"
-            "xorg"
-            "xorg-xinit"
-            "xorg-server"
-            "playerctl"
-            # tools
-            "xdotool"
-            "maim"
-            "htop"
-            "neofetch"
-            "curl"
-            "tree"
-            "xclip"
-            "fzf"
-            "zsh-autosuggestions"
-            "zsh-syntax-highlighting"
-            "wget"
-            # media
-            "feh"
-            "mpv"
-            "viewnior"
-            "atril"
-            # fonts
-            "ttf-jetbrains-mono-nerd"
-            # internet
-            "firefox"
-            "uget" # internet download manager
-            # programming
-            "vim"
-            "helix" # GF text editor 
-            # languages
-            "rust"
-            "clang"
-            "nodejs"
-            "python"
-            # lsps
-            "bash-language-server"
-            "pyright"
-            "typescript-language-server"
-            # dev tools
-            "docker"
-            "terraform"
-            # entertainment
-            "discord"
-            "telegram-desktop"
-            "obsidian"
-            "spotify"
-        )
+        # Important for sys
+        "kitty"
+        "polybar"
+        "picom"
+        "zsh"
+        "starship" # shell prompt
+        "git"
+        "dunst"
+        "thunar"
+        "xorg"
+        "xorg-xinit"
+        "xorg-server"
+        "playerctl"
+        # tools
+        "xdotool"
+        "maim"
+        "htop"
+        "neofetch"
+        "curl"
+        "tree"
+        "xclip"
+        "fzf"
+        "zsh-autosuggestions"
+        "zsh-syntax-highlighting"
+        "wget"
+        # media
+        "feh"
+        "mpv"
+        "viewnior"
+        "atril"
+        # fonts
+        "ttf-jetbrains-mono-nerd"
+        # internet
+        "firefox"
+        "uget" # internet download manager
+        # programming
+        "vim"
+        "helix" # GF text editor 
+        # languages
+        "rust"
+        "clang"
+        "nodejs"
+        "python"
+        # lsps
+        "bash-language-server"
+        "pyright"
+        "typescript-language-server"
+        # dev tools
+        "docker"
+        "terraform"
+        # entertainment
+        "discord"
+        "telegram-desktop"
+        "obsidian"
+        "spotify"
+    )
 
     for package in "${PACKAGES[@]}"; do
         sudo pacman -S "$package" --noconfirm
@@ -125,43 +125,43 @@ function yay_packages() {
 # create bspwm folder in config and cp default config in usr/share
 function create_bspwm() {
     cprintln "${YELLOW}" "Creating bspwm folder..."
-    mkdir -p ~/.config/bspwm
-    cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/bspwmrc || { cprintln "${RED}" "Failed to copy bspwmrc"; exit 1; }
-    cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/bspwm/sxhkdrc || { cprintln "${RED}" "Failed to copy sxhkdrc"; exit 1; }
+    mkdir -p "$HOME/.config/bspwm"
+    cp /usr/share/doc/bspwm/examples/bspwmrc "$HOME/.config/bspwm/bspwmrc" || { cprintln "${RED}" "Failed to copy bspwmrc"; exit 1; }
+    curl -o "$HOME/.config/bspwm/sxhkdrc" https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/bspwm/sxhkdrc || { cprintln "${RED}" "Failed to copy sxhkdrc"; exit 1; }
     cprintln "${GREEN}" "bspwm folder created"
 }
 
 # create polybar folder in config and cp default config in usr/share
 function create_polybar() {
     cprintln "${YELLOW}" "Creating polybar folder..."
-    mkdir -p ~/.config/polybar
-    cp /usr/share/doc/polybar/examples/config.ini ~/.config/polybar/ || { cprintln "${RED}" "Failed to copy polybar config"; exit 1; }
+    mkdir -p "$HOME/.config/polybar"
+    cp /usr/share/doc/polybar/examples/config.ini "$HOME/.config/polybar/" || { cprintln "${RED}" "Failed to copy polybar config"; exit 1; }
     cprintln "${GREEN}" "polybar folder created"
 }
 
 # dunst clone the repo for dunst notification
 function create_dunst() {
     cprintln "${YELLOW}" "Creating dunst folder..."
-    mkdir -p ~/.config/dunst
-    curl -o ~/.config/dunst/dunstrc  https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/dunstrc || { cprintln "${RED}" "Failed to download dunstrc"; exit 1; }
+    mkdir -p "$HOME/.config/dunst"
+    curl -o "$HOME/.config/dunst/dunstrc" https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/dunstrc || { cprintln "${RED}" "Failed to download dunstrc"; exit 1; }
     cprintln "${GREEN}" "dunst folder created"
 }
 
 # create helix folder in config and curl the config
 function create_helix() {
     cprintln "${YELLOW}" "Creating helix folder..."
-    mkdir -p ~/.config/helix
-    curl -o ~/.config/helix/config.toml  https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/helix/config.toml || { cprintln "${RED}" "Failed to download helix config"; exit 1; }
-    curl -o ~/.config/helix/languages.toml  https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/helix/languages.toml || { cprintln "${RED}" "Failed to download helix languages config"; exit 1; }
+    mkdir -p "$HOME/.config/helix"
+    curl -o "$HOME/.config/helix/config.toml" https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/helix/config.toml || { cprintln "${RED}" "Failed to download helix config"; exit 1; }
+    curl -o "$HOME/.config/helix/languages.toml" https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/helix/languages.toml || { cprintln "${RED}" "Failed to download helix languages config"; exit 1; }
     cprintln "${GREEN}" "helix folder created"
 }
 
 # create kitty folder in config and curl the configs
 function create_kitty() {
     cprintln "${YELLOW}" "Creating kitty folder..."
-    mkdir -p ~/.config/kitty
-    curl -o ~/.config/kitty/kitty.conf  https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/kitty/kitty.conf || { cprintln "${RED}" "Failed to download kitty config"; exit 1; }
-    curl -o ~/.config/kitty/theme.conf  https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/kitty/theme.conf || { cprintln "${RED}" "Failed to download kitty theme"; exit 1; }
+    mkdir -p "$HOME/.config/kitty"
+    curl -o "$HOME/.config/kitty/kitty.conf" https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/kitty/kitty.conf || { cprintln "${RED}" "Failed to download kitty config"; exit 1; }
+    curl -o "$HOME/.config/kitty/theme.conf" https://raw.githubusercontent.com/Abdogouhmad/dotfile/main/config/kitty/theme.conf || { cprintln "${RED}" "Failed to download kitty theme"; exit 1; }
     cprintln "${GREEN}" "kitty folder created"
 }
 
