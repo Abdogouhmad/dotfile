@@ -63,9 +63,11 @@ function install_packages() {
             "clang"
             "nodejs"
             "python"
+            # lsps
             "bash-language-server"
             "pyright"
             "typescript-language-server"
+            # dev tools
             "docker"
             "terraform"
             # entertainment
