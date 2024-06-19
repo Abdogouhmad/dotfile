@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+# colors
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+MAGENTA='\033[0;35m'
+NC='\033[0m' 
+
+# print function 
+function cprintln() {
+    local color=$1
+    local message=$2
+    local nc=$NC
+    echo -e "${color}" "${message}" "${nc}"
+}
+
+# install the needed packages
+function install_packages() {
+    # print colored msg
+    cprintln "${MAGENTA}" "installing packages..."
+
+    PACKAGES=(
+            # Important for sys
+            "kitty"
+            "polybar"
+            "picom"
+            "zsh"
+            "starship" # shell prompt
+            "git"
+            "dunst"
+            "thunar"
+            "xorg"
+            # tools
+            "htop"
+            "neofetch"
+            "curl"
+            "tree"
+            "xclip"
+            "fzf"
+            "zsh-autosuggestions"
+            "zsh-syntax-highlighting"
+            "wget"
+            # internet
+            "firefox"
+            "uget" # internet download manager
+            # programming
+            "vim"
+            "helix" # GF text editor 
+            # languages
+            "rust"
+            "clang"
+            "nodejs"
+            "python3"
+            "bash-language-server"
+            "pyright"
+            "typescript-language-server"
+            "docker"
+            "terraform"
+            # entertainment
+            "discord"
+            "obsidian"
+            "spotify"
+        )
+
+    for package in "${PACKAGES[@]}"; do
+        sudo pacman -S "$package" --noconfirm
+    done
+
+    cprintln "${GREEN}" "packages installed"
+}
+
+# step yay
+function step_yay() {
+    cprintln "${YELLOW}" "installing yay..."
+    # install needed development tools
+    sudo pacman -S --needed git base-devel xorg --noconfirm
+    # clone yay from AUR
+    git clone https://aur.archlinux.org/yay.git || exit
+    cd yay || exit
+    makepkg -si
+    yay -Sua --noconfirm
+    cprintln "${GREEN}" "yay installed"
+}
+
+# create bspwm folder in config and cp default config in usr/share
+function create_bspwm() {
+    cprintln "${YELLOW}" "creating bspwm folder..."
+    mkdir ~/.config/bspwm
+    cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/bspwmrc
+    cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/bspwm/sxhkdrc
+    cprintln "${GREEN}" "bspwm folder created"
+}
+
+# create polybar folder in config and cp default config in usr/share
+function create_polybar() {
+    cprintln "${YELLOW}" "creating polybar folder..."
+    mkdir ~/.config/polybar
+    cp /usr/share/doc/polybar/examples/config.ini ~/.config/polybar/
+    cprintln "${GREEN}" "polybar folder created"
+}
+
+# dunst clone the repo for dunst notification
+function create_dunst() {
+    cprintln "${YELLOW}" "creating dunst folder..."
+    mkdir ~/.config/dunst
+    cp /usr/share/doc/dunst/dunstrc ~/.config/dunst/dunstrc
+    cprintln "${GREEN}" "dunst folder created"
+}
+# create 
+# call the function
+install_packages
+step_yay
+create_bspwm
