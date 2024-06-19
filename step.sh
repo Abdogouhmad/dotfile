@@ -74,7 +74,6 @@ function install_packages() {
         "discord"
         "telegram-desktop"
         "obsidian"
-        "spotify"
     )
 
     for package in "${PACKAGES[@]}"; do
@@ -110,6 +109,7 @@ function step_yay() {
 function yay_packages() {
     YAY_PACKAGES=(
         "stremio"
+        "spotify"
     )
     cprintln "${YELLOW}" "Installing yay packages..."
     for package in "${YAY_PACKAGES[@]}"; do
