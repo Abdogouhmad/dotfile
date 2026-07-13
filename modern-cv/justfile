@@ -1,0 +1,10 @@
+default:
+    just -l
+
+# run
+run:
+    typst watch resume.typ
+
+# compile
+compile:
+    typst compile resume.typ --open
