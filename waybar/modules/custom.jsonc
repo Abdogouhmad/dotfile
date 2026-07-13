@@ -1,0 +1,68 @@
+{
+  "custom/omarchy": {
+    "format": "<span font='omarchy'>\ue900</span>",
+    "on-click": "omarchy-menu",
+    "on-click-right": "xdg-terminal-exec",
+    "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space",
+  },
+  "custom/prayer": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/prayer.py",
+    "return-type": "json",
+    "interval": 60,
+    "on-click": "notify-send -a 'Muezzin' 'Prayer Status' \"$(~/.config/waybar/scripts/prayer.py --schedule)\"",
+  },
+  "custom/update": {
+    "format": "",
+    "exec": "omarchy-update-available",
+    "on-click": "omarchy-launch-floating-terminal-with-presentation omarchy-update",
+    "tooltip-format": "Omarchy update available",
+    "signal": 7,
+    "interval": 21600,
+  },
+  "custom/voxtype": {
+    "exec": "omarchy-voxtype-status",
+    "return-type": "json",
+    "format": "{icon}",
+    "format-icons": {
+      "idle": "",
+      "recording": "󰍬",
+      "transcribing": "󰔟",
+    },
+    "tooltip": true,
+    "on-click-right": "omarchy-voxtype-config",
+    "on-click": "omarchy-voxtype-model",
+  },
+  "custom/screenrecording-indicator": {
+    "on-click": "omarchy-capture-screenrecording",
+    "exec": "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh",
+    "signal": 8,
+    "return-type": "json",
+  },
+  "custom/idle-indicator": {
+    "on-click": "omarchy-toggle-idle",
+    "exec": "$OMARCHY_PATH/default/waybar/indicators/idle.sh",
+    "signal": 9,
+    "return-type": "json",
+  },
+  "custom/notification-silencing-indicator": {
+    "on-click": "omarchy-toggle-notification-silencing",
+    "exec": "$OMARCHY_PATH/default/waybar/indicators/notification-silencing.sh",
+    "signal": 10,
+    "return-type": "json",
+  },
+  "custom/weather": {
+    "exec": "~/.config/waybar/scripts/weather.sh Changchun",
+    "return-type": "json",
+    "format": "{}",
+    "tooltip": true,
+    "interval": 600,
+  },
+  "custom/net": {
+    "exec": "~/.config/waybar/scripts/net.sh",
+    "return-type": "json",
+    "format": "{text}",
+    "tooltip": true,
+    "interval": 60,
+  },
+}

@@ -1,9 +1,0 @@
-/* colors.rasi */
-* {
-    background:     #0B0A1B;  /* Updated background color */
-    background-alt: #26163B;  /* Updated alternative background color */
-    foreground:     #E5E8FB;  /* Updated foreground color */
-    selected:       #46152F;  /* Updated selected color */
-    active:         #61c766;  /* No new color provided for active, keeping the same */
-    urgent:         #E21650;  /* Updated urgent color */
-}

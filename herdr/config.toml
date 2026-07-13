@@ -1,0 +1,70 @@
+onboarding = false
+[theme]
+name = "terminal"
+auto_switch = false
+
+[ui.toast]
+delivery = "system"
+
+[ui]
+show_agent_labels_on_pane_borders = true
+agent_panel_sort = "priority"
+
+[keys]
+prefix = "ctrl+b"
+
+# --- Core movement (the "learn these five first") ---
+new_tab = ["prefix+c", "ctrl+alt+c"]
+split_vertical = ["prefix+v", "ctrl+alt+d"]
+split_horizontal = ["prefix+minus", "ctrl+alt+shift+d"]
+focus_pane_left = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+workspace_picker = "prefix+w"
+detach = "prefix+q"
+
+# --- Panes ---
+zoom = ["prefix+z", "ctrl+alt+z"]
+close_pane = "prefix+x"
+swap_pane_left = "prefix+shift+h"
+swap_pane_down = "prefix+shift+j"
+swap_pane_up = "prefix+shift+k"
+swap_pane_right = "prefix+shift+l"
+resize_mode = "prefix+r"
+copy_mode = "prefix+["
+cycle_pane_next = "prefix+o"
+cycle_pane_previous = "prefix+shift+o"
+last_pane = "prefix+tab"
+
+# --- Tabs ---
+previous_tab = ["prefix+p", "ctrl+alt+["]
+next_tab = ["prefix+n", "ctrl+alt+]"]
+switch_tab = "prefix+1..9"
+rename_tab = "prefix+shift+t"
+close_tab = "prefix+shift+x"
+
+# --- Workspaces & session ---
+new_workspace = "prefix+shift+n"
+new_worktree = "prefix+shift+g"
+rename_workspace = "prefix+shift+w"
+close_workspace = "prefix+shift+d"
+goto = "prefix+g"
+toggle_sidebar = "prefix+b"
+previous_workspace = "prefix+shift+left"
+next_workspace = "prefix+shift+right"
+
+# --- Navigate mode (plain keys, only valid here) ---
+navigate_workspace_up = "up"
+navigate_workspace_down = "down"
+navigate_pane_left = "h"
+navigate_pane_down = "j"
+navigate_pane_up = "k"
+navigate_pane_right = "l"
+
+# --- Custom commands (edit/remove as you like) ---
+[[keys.command]]
+key = "prefix+alt+g"
+type = "pane"
+command = "lazygit"
+description = "run lazygit"

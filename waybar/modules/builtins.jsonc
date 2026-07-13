@@ -1,0 +1,108 @@
+{
+  "clock": {
+    "format": "{:%I:%M %p}",
+    "format-alt": "{:%A %d/%m/%Y}",
+    "tooltip-format": "<span>{calendar}</span>",
+    "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select",
+  },
+  "cpu": {
+    "interval": 5,
+    "format": "󰍛",
+    "on-click": "omarchy-launch-or-focus-tui btop",
+    "on-click-right": "alacritty",
+  },
+  "memory": {
+    "format": " {used:0.1f}gb",
+    "interval": 2,
+    "on-click": "omarchy-launch-or-focus-tui btop",
+  },
+  "backlight": {
+    "format": "{percent}% {icon}",
+    "format-icons": ["🌑", "🌘", "🌗", "🌖", "🌕"],
+  },
+  "network": {
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "format": "{icon} {essid}",
+    "format-wifi": "{icon} {essid}",
+    "format-ethernet": "󰀂",
+    "format-disconnected": "󰤮",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 3,
+    "spacing": 1,
+    "on-click": "omarchy-launch-wifi",
+  },
+  "bluetooth": {
+    "format": "",
+    "format-off": "󰂲",
+    "format-disabled": "󰂲",
+    "format-connected": "",
+    "format-no-controller": "",
+    "tooltip-format": "Devices connected: {num_connections}",
+    "on-click": "omarchy-launch-bluetooth"
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "on-click": "omarchy-launch-audio",
+    "on-click-right": "pamixer -t",
+    "tooltip-format": "Playing at {volume}%",
+    "scroll-step": 5,
+    "format-muted": "\ueee8",
+    "format-icons": {
+      "headphone": "\uf025",
+      "headset": "\uf025",
+      "default": ["\uf026", "\uf027", "\uf028"]
+    }
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 6,
+  },
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-discharging": "{capacity}% {icon}",
+    "format-charging": "{capacity}% {icon}",
+    "format-plugged": "",
+    "format-icons": {
+      "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    },
+    "format-full": "󰂅",
+    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+    "interval": 5,
+    "on-click": "omarchy-menu power",
+    "on-click-right": "notify-send -u low \"$(omarchy-battery-status)\"",
+    "states": {
+      "warning": 20,
+      "critical": 10,
+    },
+  },
+  "temperature": {
+    "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
+    "format": "{temperatureC}°C",
+    "critical-threshold": 75,
+    "format-critical": " {temperatureC}°C",
+    "format-icons": [
+      "", "", "", "", "",
+    ],
+    "tooltip-format": "Temperature: {temperatureC}°C",
+    "on-click": "omarchy-launch-or-focus-tui btop",
+    "interval": 5,
+  },
+  "mpris": {
+    "format": "{artist} - {title}",
+    "format-paused": "{status_icon} <i>{artist} - {title}</i>",
+    "ignored-players": ["chromium"],
+    "max-length": 30,
+    "player-icons": {
+      "default": "🎵",
+      "mpv": "🎵"
+    },
+    "status-icons": {
+      "paused": "⏸"
+    }
+  },
+
+}

@@ -22,21 +22,10 @@ function install_packages() {
     PACKAGES=(
         # Important for sys
         "kitty"
-        "polybar"
-        "picom"
         "zsh"
         "starship" # shell prompt
         "git"
-        "dunst"
-        "thunar"
-        "xorg"
-        "xorg-xinit"
-        "xorg-server"
-        "playerctl"
         # tools
-        "xdotool"
-        "maim"
-        "htop"
         "neofetch"
         "curl"
         "tree"

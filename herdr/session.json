@@ -1,0 +1,182 @@
+{
+  "version": 3,
+  "workspaces": [
+    {
+      "id": "w5",
+      "custom_name": "ltx project",
+      "identity_cwd": "/home/abdo/Desktop/ltx",
+      "public_pane_numbers": {
+        "4": 15,
+        "10": 21,
+        "5": 17,
+        "3": 14,
+        "2": 2,
+        "1": 1,
+        "6": 18
+      },
+      "next_public_pane_number": 22,
+      "public_tab_numbers": [
+        1,
+        2,
+        6,
+        7,
+        8
+      ],
+      "next_public_tab_number": 9,
+      "tabs": [
+        {
+          "custom_name": "AI",
+          "layout": {
+            "Pane": 1
+          },
+          "panes": {
+            "1": {
+              "cwd": "/home/abdo/Desktop/ltx",
+              "agent_session": {
+                "source": "herdr:opencode",
+                "agent": "opencode",
+                "kind": "id",
+                "value": "ses_0ae2b24d4ffeeG3okhy4IzXgMH"
+              }
+            }
+          },
+          "zoomed": false,
+          "focused": 1,
+          "root_pane": 1
+        },
+        {
+          "custom_name": "editor",
+          "layout": {
+            "Pane": 2
+          },
+          "panes": {
+            "2": {
+              "cwd": "/home/abdo/Desktop/ltx"
+            }
+          },
+          "zoomed": false,
+          "focused": 2,
+          "root_pane": 2
+        },
+        {
+          "custom_name": "exec",
+          "layout": {
+            "Pane": 3
+          },
+          "panes": {
+            "3": {
+              "cwd": "/home/abdo/Desktop/ltx"
+            }
+          },
+          "zoomed": false,
+          "focused": 3,
+          "root_pane": 3
+        },
+        {
+          "custom_name": "git",
+          "layout": {
+            "Split": {
+              "direction": "Horizontal",
+              "ratio": 0.5,
+              "first": {
+                "Pane": 4
+              },
+              "second": {
+                "Split": {
+                  "direction": "Horizontal",
+                  "ratio": 0.5,
+                  "first": {
+                    "Pane": 5
+                  },
+                  "second": {
+                    "Pane": 10
+                  }
+                }
+              }
+            }
+          },
+          "panes": {
+            "5": {
+              "cwd": "/home/abdo/Desktop/ltx"
+            },
+            "4": {
+              "cwd": "/home/abdo/Desktop/ltx"
+            },
+            "10": {
+              "cwd": "/home/abdo/Desktop/ltx"
+            }
+          },
+          "zoomed": true,
+          "focused": 10,
+          "root_pane": 4
+        },
+        {
+          "custom_name": "yazi",
+          "layout": {
+            "Pane": 6
+          },
+          "panes": {
+            "6": {
+              "cwd": "/home/abdo/Desktop/ltx"
+            }
+          },
+          "zoomed": false,
+          "focused": 6,
+          "root_pane": 6
+        }
+      ],
+      "active_tab": 1
+    },
+    {
+      "id": "w6",
+      "custom_name": "herdr conf",
+      "identity_cwd": "/home/abdo/.config/waybar",
+      "public_pane_numbers": {
+        "8": 5,
+        "7": 4
+      },
+      "next_public_pane_number": 6,
+      "public_tab_numbers": [
+        3,
+        4
+      ],
+      "next_public_tab_number": 5,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 7
+          },
+          "panes": {
+            "7": {
+              "cwd": "/home/abdo/.config/waybar"
+            }
+          },
+          "zoomed": false,
+          "focused": 7,
+          "root_pane": 7
+        },
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 8
+          },
+          "panes": {
+            "8": {
+              "cwd": "/home/abdo/Desktop/waybk/way2"
+            }
+          },
+          "zoomed": false,
+          "focused": 8,
+          "root_pane": 8
+        }
+      ],
+      "active_tab": 0
+    }
+  ],
+  "active": 1,
+  "selected": 1,
+  "sidebar_width": 32,
+  "sidebar_section_split": 0.5,
+  "collapsed_space_keys": []
+}

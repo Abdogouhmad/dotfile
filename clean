@@ -1,0 +1,314 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+OPT=""
+VERBOSE=false
+VALID_OPS=("pacman" "yay" "journalctl" ".cache" "all")
+TOTAL_FREED=0
+
+# Function to check if value is valid
+is_valid_op() {
+    local value="$1"
+    for valid in "${VALID_OPS[@]}"; do
+        if [ "$value" = "$valid" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+# Function to error out
+error_exit() {
+    echo -e "${RED}Error: $1${NC}"
+    echo ""
+    show_help
+    exit 1
+}
+
+# Function to print debug messages
+debug() {
+    if [ "$VERBOSE" = true ]; then
+        echo -e "${BLUE}[DEBUG] $1${NC}"
+    fi
+}
+
+# Function to print info messages
+info() {
+    echo -e "${CYAN}[INFO] $1${NC}"
+}
+
+# Function to print success messages
+success() {
+    echo -e "${GREEN}[✓] $1${NC}"
+}
+
+# Function to print warning messages
+warn() {
+    echo -e "${YELLOW}[!] $1${NC}"
+}
+
+# Function shows help
+show_help() {
+    echo -e "${YELLOW}A Bash CLI tool for cleaning up disk space ${NC}\n"
+    echo "Usage: clean [options] [positional_args]"
+    echo ""
+    echo "Options:"
+    echo "  -o, --opt    <name>  Specify the op to clean [pacman, yay, journalctl, .cache, all]"
+    echo "  -v, --verbose        Enable verbose output"
+    echo "  -h, --help           Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  ./clean -o pacman"
+    echo "  ./clean -o yay pacman"
+    echo "  ./clean -o all"
+    echo "  ./clean -o pacman -v"
+}
+
+# Function to get human readable size
+human_readable() {
+    local bytes=$1
+    if [ "$bytes" -lt 1024 ]; then
+        echo "${bytes}B"
+    elif [ "$bytes" -lt 1048576 ]; then
+        echo "$(( bytes / 1024 ))KB"
+    elif [ "$bytes" -lt 1073741824 ]; then
+        echo "$(( bytes / 1048576 ))MB"
+    else
+        echo "$(( bytes / 1073741824 ))GB"
+    fi
+}
+
+# Function to clean pacman cache
+clean_pacman() {
+    info "Cleaning pacman cache..."
+
+    if ! command -v pacman &> /dev/null; then
+        warn "pacman not found, skipping..."
+        return
+    fi
+
+    debug "Running: pacman -Sc --noconfirm"
+
+    # Get size before
+    local cache_dir="/var/cache/pacman/pkg"
+    if [ -d "$cache_dir" ]; then
+        local before=$(du -sb "$cache_dir" 2>/dev/null | cut -f1)
+
+        # Clean package cache (keep latest versions)
+        sudo pacman -Sc --noconfirm > /dev/null 2>&1
+
+        local after=$(du -sb "$cache_dir" 2>/dev/null | cut -f1)
+        local freed=$((before - after))
+        TOTAL_FREED=$((TOTAL_FREED + freed))
+
+        success "Pacman cache cleaned: $(human_readable $freed) freed"
+    else
+        warn "Pacman cache directory not found"
+    fi
+}
+
+# Function to clean yay cache
+clean_yay() {
+    info "Cleaning yay cache..."
+
+    if ! command -v yay &> /dev/null; then
+        warn "yay not found, skipping..."
+        return
+    fi
+
+    debug "Running: yay -Sc --noconfirm"
+
+    # Get yay cache directory
+    local yay_cache="${HOME}/.cache/yay"
+
+    if [ -d "$yay_cache" ]; then
+        local before=$(du -sb "$yay_cache" 2>/dev/null | cut -f1)
+
+        # Clean yay cache
+        yay -Sc --noconfirm > /dev/null 2>&1
+
+        local after=$(du -sb "$yay_cache" 2>/dev/null | cut -f1)
+        local freed=$((before - after))
+        TOTAL_FREED=$((TOTAL_FREED + freed))
+
+        success "Yay cache cleaned: $(human_readable $freed) freed"
+    else
+        warn "Yay cache directory not found"
+    fi
+}
+
+# Function to clean journalctl logs
+clean_journalctl() {
+    info "Cleaning journalctl logs..."
+
+    if ! command -v journalctl &> /dev/null; then
+        warn "journalctl not found, skipping..."
+        return
+    fi
+
+    debug "Running: journalctl --vacuum=7d"
+
+    # Get size before
+    local journal_dir="/var/log/journal"
+    if [ -d "$journal_dir" ]; then
+        local before=$(du -sb "$journal_dir" 2>/dev/null | cut -f1)
+
+        # Keep only last 7 days of logs
+        sudo journalctl --vacuum=7d > /dev/null 2>&1
+
+        local after=$(du -sb "$journal_dir" 2>/dev/null | cut -f1)
+        local freed=$((before - after))
+        TOTAL_FREED=$((TOTAL_FREED + freed))
+
+        success "Journalctl logs cleaned: $(human_readable $freed) freed"
+    else
+        debug "Journal directory not found or empty"
+    fi
+}
+
+# Function to clean .cache directory
+clean_cache() {
+    info "Cleaning .cache directory..."
+
+    local cache_dir="${HOME}/.cache"
+
+    if [ -d "$cache_dir" ]; then
+        local before=$(du -sb "$cache_dir" 2>/dev/null | cut -f1)
+
+        debug "Running: rm -rf ${cache_dir}/*"
+
+        # Remove cache files (but not the directory itself)
+        find "$cache_dir" -type f -delete 2>/dev/null || true
+        find "$cache_dir" -type d -empty -delete 2>/dev/null || true
+
+        local after=$(du -sb "$cache_dir" 2>/dev/null | cut -f1)
+        local freed=$((before - after))
+        TOTAL_FREED=$((TOTAL_FREED + freed))
+
+        success ".cache directory cleaned: $(human_readable $freed) freed"
+    else
+        warn ".cache directory not found"
+    fi
+}
+
+# Show help if no arguments
+if [ $# -eq 0 ]; then
+    show_help
+    exit 0
+fi
+
+# Check if first argument is a positional arg (doesn't start with -)
+if [ $# -gt 0 ] && [[ ! "$1" =~ ^- ]]; then
+    error_exit "positional arguments must come AFTER options"
+fi
+
+# Parse options
+while getopts "ho:v" opt; do
+    case "$opt" in
+        h)
+            show_help
+            exit 0
+            ;;
+        o)
+            OPT="$OPTARG"
+            # Validate the option value
+            if ! is_valid_op "$OPT"; then
+                error_exit "Invalid operation: '$OPT'. Valid options are: ${VALID_OPS[*]}"
+            fi
+            ;;
+        v)
+            VERBOSE=true
+            ;;
+        *)
+            error_exit "Unknown option: -$OPTARG"
+            ;;
+    esac
+done
+
+shift $((OPTIND - 1))  # Remove parsed options
+REMAINING_ARGS=("$@")  # Capture extras like pacman in "-o yay pacman"
+
+# Check if -o was provided
+if [ -z "$OPT" ]; then
+    error_exit "Option -o is required. Specify an operation to clean."
+fi
+
+# Print header
+echo ""
+echo -e "${YELLOW}════════════════════════════════════${NC}"
+echo -e "${YELLOW}  Disk Cleanup Tool${NC}"
+echo -e "${YELLOW}════════════════════════════════════${NC}"
+echo ""
+
+debug "Verbose mode enabled"
+debug "Primary operation: $OPT"
+if [ ${#REMAINING_ARGS[@]} -gt 0 ]; then
+    debug "Additional operations: ${REMAINING_ARGS[*]}"
+fi
+
+# Execute cleaning operations
+case "$OPT" in
+    pacman)
+        clean_pacman
+        ;;
+    yay)
+        clean_yay
+        ;;
+    journalctl)
+        clean_journalctl
+        ;;
+    .cache)
+        clean_cache
+        ;;
+    all)
+        clean_pacman
+        clean_yay
+        clean_journalctl
+        clean_cache
+        ;;
+    *)
+        error_exit "Unknown operation: $OPT"
+        ;;
+esac
+
+# Clean additional operations from remaining args
+if [ ${#REMAINING_ARGS[@]} -gt 0 ]; then
+    for arg in "${REMAINING_ARGS[@]}"; do
+        if is_valid_op "$arg"; then
+            case "$arg" in
+                pacman)
+                    clean_pacman
+                    ;;
+                yay)
+                    clean_yay
+                    ;;
+                journalctl)
+                    clean_journalctl
+                    ;;
+                .cache)
+                    clean_cache
+                    ;;
+            esac
+        else
+            warn "Skipping invalid operation: $arg"
+        fi
+    done
+fi
+
+# Print summary
+echo ""
+echo -e "${YELLOW}════════════════════════════════════${NC}"
+echo -e "${GREEN}Total space freed: $(human_readable $TOTAL_FREED)${NC}"
+echo -e "${YELLOW}════════════════════════════════════${NC}"
+echo ""
+
+success "Cleanup completed successfully!"
+exit 0
