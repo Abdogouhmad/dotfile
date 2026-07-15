@@ -1,81 +1,61 @@
-# Customizing Archcraft OS BSPWM Theme with dotfiles
+# Dotfiles
 
-> [!IMPORTANT]
-> Some paramters may not be applicable so try to copy the config
-> manually.
+Personal dotfiles for Arch Linux with niri (Wayland compositor).
 
-This repository contains my personal dotfiles for customizing the default theme of Archcraft
-OS with BSPWM window manager. The main focus of these dotfiles is to enhance the visual appeal
-of the OS using Picom for window styling. The customizations include transparent and blurred
-windows, as well as rounded corners for a sleek and modern look.
+Configs are symlinked directly from `~/.config/` into this repo. Edit in `~/.config/`, changes are tracked here.
 
-## BSPWM preview
+## Managed Configs
 
-![BSPWM preview](img/bspwm_preview.png)
+| Tool    | Repo Path                         | Symlink Target                       |
+|---------|-----------------------------------|--------------------------------------|
+| niri    | `niri/`                           | `~/.config/niri`                     |
+| kitty   | `kitty/kitty.conf`                | `~/.config/kitty/kitty.conf`         |
+| kitty   | `kitty/current-theme.conf`        | `~/.config/kitty/current-theme.conf` |
+| kitty   | `kitty/noctalia.conf`             | `~/.config/kitty/themes/noctalia.conf`|
+| helix   | `helix/config.toml`               | `~/.config/helix/config.toml`        |
+| helix   | `helix/languages.toml`            | `~/.config/helix/languages.toml`     |
+| helix   | `helix/noctalia.toml`             | `~/.config/helix/themes/noctalia.toml`|
+| herdr   | `herdr/config.toml`               | `~/.config/herdr/config.toml`        |
+| zed     | `zed/settings.json`               | `~/.config/zed/settings.json`        |
+| zed     | `zed/noctalia.json`               | `~/.config/zed/themes/noctalia.json` |
 
-## Archcraft OS
-
-Archcraft OS is a lightweight and minimalistic Arch Linux-based distribution that provides a
-fast and efficient computing environment. It comes pre-configured with BSPWM window manager,
-which allows for extensive customization and flexibility.
-
-## BSPWM
-
-BSPWM (Binary Space Partitioning Window Manager) is a tiling window manager that arranges
-windows in a binary tree-like structure. It provides a highly efficient workflow by
-automatically managing the layout of windows, making it ideal for users who prefer
-keyboard-centric navigation and window organization.
-
-## Picom for Window Styling
-
-Picom is a compositor for X11 that allows for various window styling effects, including
-transparency and blur. By using Picom, I have customized the appearance of windows
-to achieve a visually appealing and modern user interface.
-
-## Customized Features
-
-1. Transparency: Windows are set to be partially transparent, providing a subtle see-through effect, enhancing the overall visual experience.
-
-2. Blurring: Picom enables window blurring, giving a sleek and aesthetically pleasing look to open windows.
-
-3. Rounded Corners: Window corners are rounded, softening the edges and contributing to a more modern and elegant design.
-
-## How to Use the Dotfiles
-
-To apply these customizations to your Archcraft OS BSPWM setup, follow these steps:
-
-### Clone the repository
+## Setup on a New Machine
 
 ```bash
-git clone https://github.com/thorfinn/dotfiles
+git clone https://github.com/Abdogouhmad/dotfile ~/.local/share/dotfile
 
+# niri
+rm -rf ~/.config/niri
+ln -s ~/.local/share/dotfile/niri ~/.config/niri
+
+# kitty
+rm ~/.config/kitty/kitty.conf
+ln -s ~/.local/share/dotfile/kitty/kitty.conf ~/.config/kitty/kitty.conf
+rm ~/.config/kitty/current-theme.conf
+ln -s ~/.local/share/dotfile/kitty/current-theme.conf ~/.config/kitty/current-theme.conf
+rm ~/.config/kitty/themes/noctalia.conf
+ln -s ~/.local/share/dotfile/kitty/noctalia.conf ~/.config/kitty/themes/noctalia.conf
+
+# helix
+rm ~/.config/helix/config.toml
+ln -s ~/.local/share/dotfile/helix/config.toml ~/.config/helix/config.toml
+rm ~/.config/helix/languages.toml
+ln -s ~/.local/share/dotfile/helix/languages.toml ~/.config/helix/languages.toml
+rm ~/.config/helix/themes/noctalia.toml
+ln -s ~/.local/share/dotfile/helix/noctalia.toml ~/.config/helix/themes/noctalia.toml
+
+# herdr
+rm ~/.config/herdr/config.toml
+ln -s ~/.local/share/dotfile/herdr/config.toml ~/.config/herdr/config.toml
+
+# zed
+rm ~/.config/zed/settings.json
+ln -s ~/.local/share/dotfile/zed/settings.json ~/.config/zed/settings.json
+rm ~/.config/zed/themes/noctalia.json
+ln -s ~/.local/share/dotfile/zed/noctalia.json ~/.config/zed/themes/noctalia.json
 ```
 
-Install Picom if you haven't already. Check the Archcraft OS documentation for the appropriate installation method. But mostly Archcraft is using picom for Customizing windows.
+## Scripts
 
-### Copy the config
-
-> [!CAUTION]
-> For **none Archcraft users** you can apply this theme by copying
-> polybar, rofi, dunst, picom.conf and Alacrity/kitty(~/.config/kitty).
-> As text editor I use helix (~/.config/helix) and I used starship as prompt
-
-```bash
-# only for Archcraft users
-# better to back up the /theme/default folder just to not face any overright errors
-cp -vra dotfiles/bspwm/theme/sasuki/ ~/.config/bspwm/theme/
-```
-
-```bash
-cp dotfiles/picom.conf ~/.config/picom.conf
-
-```
-
-## Disclaimer
-
-These dotfiles are my personal customizations and may not suit everyone's preferences.
-Feel free to modify and adapt them to your liking. Please use them responsibly and at your own risk.
-
-**Note**: Ensure that you have a backup of your existing configuration before applying these dotfiles to avoid any potential issues.
-
-Happy customizing! 🎨
+- `step.sh` - install packages and set up a fresh system
+- `scripts/` - utility scripts (update, package lists, etc.)

@@ -1,6 +1,7 @@
-theme = "doom-one"
+# theme = "doom-one"
 # theme = "omarchy"
 # theme = "varua"
+theme = "noctalia"
 [editor]
 auto-save = true
 auto-format = true
