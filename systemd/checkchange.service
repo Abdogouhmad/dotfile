@@ -1,0 +1,6 @@
+[Unit]
+Description=Check for uncommitted changes in dotfiles
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/share/dotfile/scripts/checkchange.sh
