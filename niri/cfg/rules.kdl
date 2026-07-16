@@ -29,6 +29,12 @@
        open-focused false
     }
 
+    // Herdr window rule
+    window-rule {
+        match app-id="herdr"
+        open-maximized true
+    }
+
     // system update manager
     window-rule {
         match app-id="update-manager"

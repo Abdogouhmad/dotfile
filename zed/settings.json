@@ -22,6 +22,6 @@
   "theme": {
     "mode": "dark",
     "light": "Noctalia Light Transparent",
-    "dark": "Gruvbox Dark",
+    "dark": "Noctalia Dark",
   },
 }
