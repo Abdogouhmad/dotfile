@@ -4,6 +4,8 @@ binds {
 
     // ─── Scripts ───
     Mod+U hotkey-overlay-title="System Update" { spawn "kitty" "--class=update-manager" "bash" "-c" "~/.local/share/dotfile/scripts/update.sh"; }
+    Mod+R hotkey-overlay-title="Remove Package" { spawn "kitty" "--class=uninstall-pkg" "bash" "-c" "~/.local/share/dotfile/scripts/uninstall.sh"; }
+
 
     // ─── Noctalia Shell ───
     // https://docs.noctalia.dev/getting-started/keybinds/
@@ -27,6 +29,8 @@ binds {
     Mod+M            hotkey-overlay-title="Spotify"       { spawn "spotify"; }
     Mod+ALT+T        hotkey-overlay-title="Herdr"         { spawn "kitty" "--class=herdr" "bash" "-c" "herdr"; }
     Mod+E            hotkey-overlay-title="File Manager"  { spawn "nautilus"; } // swap for your preferred file manager
+    Mod+V            hotkey-overlay-title="Vesktop"       { spawn "vesktop";  }
+    Mod+G            hotkey-overlay-title="Telegram"       { spawn "Telegram";  }
 
     // ─── Media Controls ───
     XF86AudioRaiseVolume  allow-when-locked=true { spawn-sh "qs -c noctalia-shell ipc call volume increase"; }

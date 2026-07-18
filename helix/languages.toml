@@ -1,266 +1,88 @@
-[[languages]]
+## Required binaries:
+##   rust-analyzer, clippy (rustup component), dart, clangd, clang-format
+##   typescript-language-server, prettier, tailwindcss-language-server
+##   vscode-css-language-server, vscode-html-language-server (npm i -g vscode-langservers-extracted)
+##   pyright, ruff, bash-language-server, shfmt, taplo, yaml-language-server
+
+## RUST
+[[language]]
 name = "rust"
+auto-format = true
 scope = "source.rust"
 injection-regex = "rust"
 file-types = ["rs"]
 roots = ["Cargo.toml", "Cargo.lock"]
-auto-format = true
-comment-tokens = ["//", "///", "//!"]
+language-servers = ["rust-analyzer"]
+persistent-diagnostic-sources = ["rustc", "clippy"]
+indent = { tab-width = 4, unit = "    " }
 block-comment-tokens = [
   { start = "/*", end = "*/" },
   { start = "/**", end = "*/" },
   { start = "/*!", end = "*/" },
 ]
-language-servers = ["rust-analyzer"]
-indent = { tab-width = 4, unit = "    " }
-persistent-diagnostic-sources = ["rustc", "clippy"]
 
 [language-server.rust-analyzer]
 command = "rust-analyzer"
 
-
-[language-server.rust-analyzer.config]
-inlayHints.bindingModeHints.enable = false
-inlayHints.closingBraceHints.minLines = 10
-inlayHints.closureReturnTypeHints.enable = "with_block"
-inlayHints.discriminantHints.enable = "fieldless"
-inlayHints.lifetimeElisionHints.enable = "skip_trivial"
-inlayHints.typeHints.hideClosureInitialization = false
 [language-server.rust-analyzer.config.check]
 command = "clippy"
 
-# C language
+[language-server.rust-analyzer.config.inlayHints]
+bindingModeHints.enable = false
+closingBraceHints.minLines = 10
+closureReturnTypeHints.enable = "with_block"
+discriminantHints.enable = "fieldless"
+lifetimeElisionHints.enable = "skip_trivial"
+typeHints.hideClosureInitialization = false
+
+## DART / FLUTTER
 [[language]]
-name = "c"
-scope = "source.c"
-injection-regex = "c"
+name = "dart"
 auto-format = true
-file-types = ["c"] # TODO: ["h"]
-comment-token = "//"
-block-comment-tokens = { start = "/*", end = "*/" }
-language-servers = [ "clangd" ]
+language-servers = ["dart"]
+formatter = { command = "dart", args = ["format"] }
 indent = { tab-width = 2, unit = "  " }
 
-# bash lsp config
-[language-server.bash-language-server]
-command = "bash-language-server"
-args = ["start"]
+[language-server.dart]
+command = "dart"
+args = ["language-server", "--protocol=lsp"]
 
-[language-server.bash-language-server.config]
-provideFormatter = true
-provideLinting = true
-autoDereference = true
-checkOnSave = true
+[language-server.dart.config]
+enableSdkFormatter = true
+lineLength = 80
+completeFunctionCalls = true
 
-
-[[languages]]
-name = "bash"
-scope = "source.bash"
-injection-regex = "(shell|bash|zsh|sh)"
-file-types = [
-  "sh",
-  "bash",
-  "zsh",
-  "zshenv",
-  "zlogin",
-  "zlogout",
-  "zprofile",
-  "zshrc",
-  "eclass",
-  "ebuild",
-  "bazelrc",
-  "Renviron",
-  "zsh-theme",
-  "ksh",
-  "cshrc",
-  "tcshrc",
-  "bashrc_Apple_Terminal",
-  "zshrc_Apple_Terminal",
-  { glob = "tmux.conf" },
-  { glob = ".bash_history" },
-  { glob = ".bash_login" },
-  { glob = ".bash_logout" },
-  { glob = ".bash_profile" },
-  { glob = ".bashrc" },
-  { glob = ".profile" },
-  { glob = ".zshenv" },
-  { glob = ".zlogin" },
-  { glob = ".zlogout" },
-  { glob = ".zprofile" },
-  { glob = ".zshrc" },
-  { glob = ".zimrc" },
-  { glob = "APKBUILD" },
-  { glob = "PKGBUILD" },
-  { glob = ".bash_aliases" },
-  { glob = ".Renviron" },
-  { glob = ".xprofile" },
-  { glob = ".xsession" },
-  { glob = ".xsessionrc" },
-  { glob = ".yashrc" },
-  { glob = ".yash_profile" },
-  { glob = ".hushlogin" },
-]
-shebangs = ["sh", "bash", "dash", "zsh"]
-comment-token = "#"
-language-servers = ["bash-language-server"]
-indent = { tab-width = 4, unit = "  " }
-
-
-# latex lsp config
-[language-server.ltex-ls]
-command = "ltex-ls"
-
-[language-server.texlab]
-command = "texlab"
-
-[language-server.texlab.config.chktex]
-onOpenAndSave = true
-onEdit = true
-
-[language-server.texlab.config.latexindent]
-modifyLine = true
-
-[language-server.texlab.config.build]
-# build with make
-forwardSearchAfter = true
-onSave = true
-executable = "make"
-args = ["all"]
-
-
+## JAVASCRIPT
 [[language]]
-name = "latex"
-scope = "source.tex"
-injection-regex = "tex"
-file-types = ["tex", "sty", "cls", "Rd", "bbx", "cbx"]
-comment-token = "%"
-language-servers = [
-  "texlab",
-  "ltex",
-] # ltex provides some autocompletion/grammar suggestions
-indent = { tab-width = 4, unit = "\t" }
-
-
-[[language]]
-name = "bibtex"
-scope = "source.bib"
-injection-regex = "bib"
-file-types = ["bib"]
-comment-token = "%"
-language-servers = ["texlab"]
-indent = { tab-width = 4, unit = "\t" }
+name = "javascript"
 auto-format = true
-
-[languages.formatter]
-command = 'bibtex-tidy'
-args = [
-  "-",
-  "--curly",
-  "--drop-all-caps",
-  "--remove-empty-fields",
-  "--sort-fields",
-  "--sort=year,author,id",
-  "--strip-enclosing-braces",
-  "--trailing-commas",
-]
-
-
-[[languages]]
-name = "toml"
-scope = "source.toml"
-injection-regex = "toml"
-file-types = ["toml", { glob = "poetry.lock" }, { glob = "Cargo.lock" }]
-comment-token = "#"
-language-servers = ["taplo"]
+language-servers = ["typescript-language-server", "tailwindcss-ls"]
+formatter = { command = "prettier", args = ["--parser", "babel"] }
 indent = { tab-width = 2, unit = "  " }
-auto-format = true
 
-
-[language-server.taplo]
-command = "taplo"
-args = ["lsp", "stdio"]
-
-
-# web dev
-[[languages]]
+## JSX
+[[language]]
 name = "jsx"
 auto-format = true
-scope = "source.jsx"
-injection-regex = "jsx"
-language-id = "javascriptreact"
-file-types = ["jsx"]
-comment-token = "//"
-block-comment-tokens = [
-  { start = "{/*", end = "*/}" },
-  { start = "/*", end = "*/" },
-]
-formatter = { command = 'prettier', args = ["--parser", "typescript"] }
-language-servers = ["typescript-language-server"]
-indent = { tab-width = 2, unit = "  " }
-grammar = "javascript"
-
-[[language]]
-name = "html"
-formatter = { command = 'prettier', args = ["--parser", "html"] }
-
-[[language]]
-name = "json"
-formatter = { command = 'prettier', args = ["--parser", "json"] }
-
-[[language]]
-name = "css"
-formatter = { command = 'prettier', agrs = ["--parser", "css"] }
-
-# [[language]]
-# name = "svelte"
-# language-servers = [ "svelteserver", "tailwindcss-ls" ]
-
-[[languages]]
-name = "javascript"
-formatter = { command = 'prettier', args = ["--parser", "typescript"] }
-auto-format = true
-scope = "source.js"
-injection-regex = "(js|javascript)"
-language-id = "javascript"
-file-types = ["js", "mjs", "cjs", "rules", "es6", "pac", { glob = "jakefile" }]
-shebangs = ["node"]
-comment-token = "//"
-block-comment-tokens = { start = "/*", end = "*/" }
-language-servers = ["typescript-language-server"]
+language-servers = ["typescript-language-server", "tailwindcss-ls"]
+formatter = { command = "prettier", args = ["--parser", "babel"] }
 indent = { tab-width = 2, unit = "  " }
 
-[[languages]]
+## TYPESCRIPT
+[[language]]
 name = "typescript"
 auto-format = true
-formatter = { command = 'prettier', args = ["--parser", "typescript"] }
-config = { format = { "semicolons" = "insert", "insertSpaceBeforeFunctionParenthesis" = true } }
-scope = "source.ts"
-injection-regex = "(ts|typescript)"
-file-types = ["ts", "mts", "cts"]
-language-id = "typescript"
-shebangs = ["deno", "ts-node"]
-comment-token = "//"
-block-comment-tokens = { start = "/*", end = "*/" }
-language-servers = ["typescript-language-server"]
+language-servers = ["typescript-language-server", "tailwindcss-ls"]
+formatter = { command = "prettier", args = ["--parser", "typescript"] }
 indent = { tab-width = 2, unit = "  " }
 
+## TSX
 [[language]]
 name = "tsx"
-scope = "source.tsx"
-injection-regex = "(tsx)" # |typescript
-language-id = "typescriptreact"
-file-types = ["tsx"]
-comment-token = "//"
-language-servers = [ "typescript-language-server", "tailwindcss-ls"]
-indent = { tab-width = 2, unit = "  " }
-block-comment-tokens = { start = "{/*", end = "*/}"}
-formatter = { command = 'prettier', args = ["--parser", "typescript"] }
 auto-format = true
-
-# [[languages]]
-# name = "jsx"
-# formatter = { command = 'prettier', args = ["--parser", "typescript"] }
-# auto-format = true
+language-servers = ["typescript-language-server", "tailwindcss-ls"]
+formatter = { command = "prettier", args = ["--parser", "typescript"] }
+indent = { tab-width = 2, unit = "  " }
 
 [language-server.typescript-language-server]
 command = "typescript-language-server"
@@ -285,47 +107,113 @@ includeInlayParameterNameHintsWhenArgumentMatchesName = true
 includeInlayPropertyDeclarationTypeHints = true
 includeInlayVariableTypeHints = true
 
-[language-server.svelteserver]
-command = "svelteserver"
-args = ["--stdio"]
+## TAILWINDCSS
+# [language-server.tailwindcss-ls]
+# command = "tailwindcss-language-server"
+# args = ["--stdio"]
+# [language-server.tailwindcss-language-server]
+# command = "tailwindcss-language-server"
+# args = ["--stdio"]
 
-[language-server.svelteserver.config.configuration.typescript]
-inlayHints.parameterTypes.enabled = true
-inlayHints.variableTypes.enabled = true
-inlayHints.propertyDeclarationTypes.enabled = true
-inlayHints.functionLikeReturnTypes.enabled = true
-inlayHints.enumMemberValues.enabled = true
-inlayHints.parameterNames.enabled = "all"
 
-[language-server.svelteserver.config.configuration.javascript]
-inlayHints.parameterTypes.enabled = true
-inlayHints.variableTypes.enabled = true
-inlayHints.propertyDeclarationTypes.enabled = true
-inlayHints.functionLikeReturnTypes.enabled = true
-inlayHints.enumMemberValues.enabled = true
-inlayHints.parameterNames.enabled = "all"
-
-# svelte
+## PYTHON
 [[language]]
-name = "svelte"
-scope = "source.svelte"
-injection-regex = "svelte"
-file-types = ["svelte"]
-indent = { tab-width = 2, unit = "  " }
-language-servers = ["svelteserver", "tailwindcss-ls"]
-comment-token = "<!-- "
+name = "python"
 auto-format = true
+language-servers = ["pyright", "ruff"]
+formatter = { command = "ruff", args = ["format", "-"] }
+indent = { tab-width = 4, unit = "    " }
 
-[language-server.tailwindcss-language-server]
-command = "tailwindcss-language-server"
+[language-server.pyright]
+command = "pyright-langserver"
 args = ["--stdio"]
 
-[[grammar]]
-name = ["bash", "latex", "bibtex", "toml"]
+[language-server.pyright.config.python.analysis]
+typeCheckingMode = "basic"
+autoImportCompletions = true
 
-source = [
-  { git = "https://github.com/tree-sitter/tree-sitter-bash", rev = "275effdfc0edce774acf7d481f9ea195c6c403cd" },
-  { git = "https://github.com/latex-lsp/tree-sitter-latex", rev = "8c75e93cd08ccb7ce1ccab22c1fbd6360e3bcea6" },
-  { git = "https://github.com/latex-lsp/tree-sitter-bibtex", rev = "ccfd77db0ed799b6c22c214fe9d2937f47bc8b34" },
-  { git = "https://github.com/ikatyang/tree-sitter-toml", rev = "7cff70bbcbbc62001b465603ca1ea88edd668704" },
-]
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+## BASH
+[[language]]
+name = "bash"
+auto-format = true
+language-servers = ["bash-language-server"]
+formatter = { command = "shfmt", args = ["-i", "2"] }
+indent = { tab-width = 2, unit = "  " }
+
+[language-server.bash-language-server]
+command = "bash-language-server"
+args = ["start"]
+
+[language-server.bash-language-server.config]
+provideFormatter = true
+provideLinting = true
+
+## TOML
+[[language]]
+name = "toml"
+auto-format = true
+language-servers = ["taplo"]
+formatter = { command = "taplo", args = ["format", "-"] }
+indent = { tab-width = 2, unit = "  " }
+
+[language-server.taplo]
+command = "taplo"
+args = ["lsp", "stdio"]
+
+## YAML
+[[language]]
+name = "yaml"
+auto-format = true
+language-servers = ["yaml-language-server"]
+formatter = { command = "prettier", args = ["--parser", "yaml"] }
+indent = { tab-width = 2, unit = "  " }
+
+[language-server.yaml-language-server]
+command = "yaml-language-server"
+args = ["--stdio"]
+
+[language-server.yaml-language-server.config.yaml]
+format.enable = true
+validation = true
+
+## C
+[[language]]
+name = "c"
+auto-format = true
+language-servers = ["clangd"]
+formatter = { command = "clang-format" }
+indent = { tab-width = 2, unit = "  " }
+
+[language-server.clangd]
+command = "clangd"
+args = ["--background-index", "--clang-tidy", "--header-insertion=iwyu"]
+
+## CSS
+[[language]]
+name = "css"
+auto-format = true
+language-servers = ["vscode-css-language-server", "tailwindcss-ls"]
+formatter = { command = "prettier", args = ["--parser", "css"] }
+indent = { tab-width = 2, unit = "  " }
+
+[language-server.vscode-css-language-server]
+command = "vscode-css-language-server"
+args = ["--stdio"]
+config.provideFormatter = true
+
+## HTML
+[[language]]
+name = "html"
+auto-format = true
+language-servers = ["vscode-html-language-server", "tailwindcss-ls"]
+formatter = { command = "prettier", args = ["--parser", "html"] }
+indent = { tab-width = 2, unit = "  " }
+
+[language-server.vscode-html-language-server]
+command = "vscode-html-language-server"
+args = ["--stdio"]
+config.provideFormatter = true

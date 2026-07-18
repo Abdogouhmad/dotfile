@@ -1,7 +1,7 @@
 #import "@preview/modern-cv:0.10.0": *
 #let accent-color = rgb(255, 0, 0)
-#let ltx = github-link("Abdgouhmad/ltx")
-#let walt = github-link("Abdgouhmad/walt")
+#let ltx = github-link("Abdogouhmad/ltx")
+#let walt = github-link("Abdogouhmad/walt")
 = Projects
 
 #resume-entry(
