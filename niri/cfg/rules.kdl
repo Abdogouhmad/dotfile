@@ -47,11 +47,11 @@
 
     // uninstall package manager
     window-rule {
-        match app-id="uninstall-pkg"
+        match app-id="pkg"
         open-floating true
         default-floating-position x=0 y=100 relative-to="top"
-        default-column-width { fixed 900; }
-        default-window-height { fixed 500; }
+        default-column-width { fixed 1000; }
+        default-window-height { fixed 200; }
         open-focused true
     }
 

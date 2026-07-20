@@ -3,10 +3,10 @@
 set -Eeuo pipefail
 
 PKG=$(
-    pacman -Qq |
+  pacman -Qq |
     fzf \
-        --prompt="Remove package> " \
-        --preview 'pacman -Qi {}'
+      --prompt="Remove package> " \
+      --preview 'pacman -Qi {}'
 ) || exit 0
 
 sudo pacman -Rns --noconfirm "$PKG"
