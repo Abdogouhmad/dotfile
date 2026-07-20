@@ -1,5 +1,7 @@
 # Dotfiles
 
+![my niri rice](./assets/niri.png)
+
 Personal dotfiles for Arch Linux with niri (Wayland compositor).
 
 Configs are symlinked directly from `~/.config/` into this repo. Edit in `~/.config/`, changes are tracked here.
