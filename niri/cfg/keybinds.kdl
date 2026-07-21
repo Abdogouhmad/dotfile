@@ -6,7 +6,7 @@ binds {
     Mod+U hotkey-overlay-title="System Update" { spawn "kitty" "--class=update-manager" "bash" "-c" "~/.local/share/dotfile/scripts/update.sh"; }
     Mod+R hotkey-overlay-title="Remove Package" { spawn "kitty" "--class=pkg" "bash" "-c" "~/.local/share/dotfile/scripts/uninstall.sh"; }
     Mod+I hotkey-overlay-title="Install Package" { spawn "kitty" "--class=pkg" "bash" "-c" "~/.local/share/dotfile/scripts/install.sh"; }
-    Mod+ALT+W hotkey-overlay-title="Install WebApp" { spawn "kitty" "--class=pkg" "bash" "-ic" "~/.local/share/dotfile/scripts/niri-webapp.sh install"; }
+    Mod+ALT+W hotkey-overlay-title="Install WebApp" { spawn "kitty" "--class=pkg" "bash" "-ic" "~/.local/share/dotfile/scripts/niri-webapp.sh"; }
 
 
     // ─── Noctalia Shell ───

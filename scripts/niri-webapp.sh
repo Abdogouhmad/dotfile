@@ -1,91 +1,102 @@
 #!/usr/bin/env bash
 
-# set -uo pipefail
+set -euo pipefail
 
-source "$(dirname "$0")/niri-webapp-lib.sh"
-trap niri_pause_on_exit EXIT
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPTS_DIR="$SCRIPT_DIR/webapp"
+
+source "$SCRIPTS_DIR/lib.sh"
+source "$SCRIPTS_DIR/install.sh"
+source "$SCRIPTS_DIR/list.sh"
+source "$SCRIPTS_DIR/remove.sh"
+
+trap niri_cleanup EXIT
+
 ########################################
-# Constants
+# Dashboard (Interactive Mode)
 ########################################
 
-readonly ICON_DIR="$HOME/.local/share/icons/niri-webapp"
-readonly APPLICATION_DIR="$HOME/.local/share/applications"
+dashboard() {
+  niri_ensure_dirs
 
-########################################
-# Install
-########################################
+  while true; do
+    clear 2>/dev/null || true
 
-install() {
-  local name
-  local url
-  local slug
-  local html
+    # Header
+    gum style \
+      --foreground 12 --border-foreground 12 --border double \
+      --align center --width 50 --margin "1 2" \
+      "  NIRI WEBAPP MANAGER  "
 
-  case "$#" in
-  0)
-    name=$(gum input --placeholder "Name of your web app")
-    url=$(gum input --placeholder "https://example.com")
-    ;;
-  1)
-    name="$1"
-    url=$(gum input --placeholder "https://example.com")
-    ;;
-  *)
-    name="$1"
-    url="$2"
-    ;;
-  esac
+    gum style --foreground 8 --align center --width 50 \
+      "Turn any website into a desktop app"
 
-  url=$(niri_normalize_url "$url")
-  slug=$(niri_slugify "$name")
+    printf "\n"
 
-  niri_info "Downloading website..."
+    local choice
+    choice=$(gum choose \
+      --header="  What would you like to do?" \
+      --cursor="  ▸ " \
+      "  📦  Install new webapp" \
+      "  📋  List installed webapps" \
+      "  🗑️   Remove webapp" \
+      "  ❌  Exit")
 
-  if ! html=$(niri_fetch_html "$url"); then
-    niri_error "Failed to download '$url'"
-    niri_pause_on_exit
-  fi
+    printf "\n"
 
-  niri_success "Website downloaded."
-
-  printf "\n"
-  printf "Name : %s\n" "$name"
-  printf "Slug : %s\n" "$slug"
-  printf "URL  : %s\n" "$url"
-
-  # TODO
-  # favicon=$(niri_get_favicon_url "$html" "$url")
-  # icon=$(niri_download_icon "$favicon" "$slug")
-  # niri_create_desktop "$name" "$slug" "$url" "$icon"
+    case "$choice" in
+    *Install*)
+      cmd_install
+      ;;
+    *List*)
+      cmd_list
+      gum confirm "Back to menu?" --default=true --affirmative="Yes" --negative="No" || break
+      ;;
+    *Remove*)
+      cmd_remove
+      gum confirm "Back to menu?" --default=true --affirmative="Yes" --negative="No" || break
+      ;;
+    *Exit*)
+      gum style --foreground 10 "  Goodbye!"
+      exit 0
+      ;;
+    esac
+  done
 }
 
 ########################################
-# Main
+# Command Router (Args Mode)
 ########################################
 
 main() {
+  # Ensure dirs exist
+  niri_ensure_dirs
 
-  niri_require gum
-  niri_require curl
-  niri_require grep
-  niri_require sed
+  # No args = interactive dashboard
+  if [[ $# -eq 0 ]]; then
+    niri_require gum
+    dashboard
+    return
+  fi
 
-  mkdir -p \
-    "$ICON_DIR" \
-    "$APPLICATION_DIR"
+  # With args = direct command
+  local cmd="$1"
+  shift || true
 
-  case "${1:-}" in
-
-  install)
-    shift
-    install "$@"
+  case "$cmd" in
+  install | i)
+    cmd_install "$@"
     ;;
-  list)
-    shift
-    printf "listing...\n"
+  list | ls)
+    cmd_list "$@"
+    ;;
+  remove | rm)
+    cmd_remove "$@"
     ;;
   *)
-    printf "Usage: %s install [URL]\n" "$0"
+    gum style --foreground 9 "  Unknown command: $cmd"
+    printf "\n  Usage: %s [install|list|remove] [args...]\n" "$0"
+    printf "  Or run without args for interactive mode.\n\n"
     exit 1
     ;;
   esac
