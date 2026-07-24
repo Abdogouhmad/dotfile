@@ -7,6 +7,10 @@ binds {
     Mod+R hotkey-overlay-title="Remove Package" { spawn "kitty" "--class=pkg" "bash" "-c" "~/.local/share/dotfile/scripts/uninstall.sh"; }
     Mod+I hotkey-overlay-title="Install Package" { spawn "kitty" "--class=pkg" "bash" "-c" "~/.local/share/dotfile/scripts/install.sh"; }
     Mod+ALT+W hotkey-overlay-title="Install WebApp" { spawn "kitty" "--class=pkg" "bash" "-ic" "~/.local/share/dotfile/scripts/niri-webapp.sh"; }
+    Mod+ALT+S hotkey-overlay-title="Start Record" { spawn "~/.local/share/dotfile/scripts/record.sh" "-s"; }
+    Mod+ALT+P hotkey-overlay-title="Pause record" { spawn "~/.local/share/dotfile/scripts/record.sh" "-p"; }
+    Mod+ALT+R hotkey-overlay-title="Resume Record" { spawn "~/.local/share/dotfile/scripts/record.sh" "-r"; }
+    Mod+ALT+K hotkey-overlay-title="Kill Record" { spawn "~/.local/share/dotfile/scripts/record.sh" "-k"; }
 
 
     // ─── Noctalia Shell ───
