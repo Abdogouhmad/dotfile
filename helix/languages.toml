@@ -13,7 +13,7 @@ injection-regex = "rust"
 file-types = ["rs"]
 roots = ["Cargo.toml", "Cargo.lock"]
 language-servers = ["rust-analyzer"]
-persistent-diagnostic-sources = ["rustc", "clippy"]
+persistent-diagnostic-sources = ["rustc"]
 indent = { tab-width = 4, unit = "    " }
 block-comment-tokens = [
   { start = "/*", end = "*/" },
@@ -24,8 +24,8 @@ block-comment-tokens = [
 [language-server.rust-analyzer]
 command = "rust-analyzer"
 
-[language-server.rust-analyzer.config.check]
-command = "clippy"
+# [language-server.rust-analyzer.config.check]
+# command = "clippy"
 
 [language-server.rust-analyzer.config.inlayHints]
 bindingModeHints.enable = false
