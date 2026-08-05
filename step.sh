@@ -31,6 +31,7 @@ function install_packages() {
         "tree"
         "xclip"
         "fzf"
+        "7zip" # archive extract/preview backend for yazi
         "zsh-autosuggestions"
         "zsh-syntax-highlighting"
         "wget"
@@ -39,6 +40,9 @@ function install_packages() {
         "mpv"
         "viewnior"
         "atril"
+        "imagemagick" # yazi image preview backend (avif/heic/jxl)
+        "ffmpeg" # yazi video frame preview backend
+        "poppler" # yazi PDF preview backend (pdftoppm)
         # fonts
         "ttf-jetbrains-mono-nerd"
         # internet

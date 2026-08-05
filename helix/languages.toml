@@ -188,6 +188,14 @@ language-servers = ["clangd"]
 formatter = { command = "clang-format" }
 indent = { tab-width = 2, unit = "  " }
 
+## C++
+[[language]]
+name = "cpp"
+auto-format = true
+language-servers = ["clangd"]
+formatter = { command = "clang-format" }
+indent = { tab-width = 2, unit = "  " }
+
 [language-server.clangd]
 command = "clangd"
 args = ["--background-index", "--clang-tidy", "--header-insertion=iwyu"]

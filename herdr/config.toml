@@ -68,3 +68,6 @@ key = "prefix+alt+g"
 type = "pane"
 command = "lazygit"
 description = "run lazygit"
+
+[experimental]
+kitty_graphics = true

@@ -1,0 +1,27 @@
+# A TOML linter such as https://github.com/tombi-toml/tombi can use this schema to validate your config.
+# If you encounter any problems, please make an issue at https://github.com/yazi-rs/schemas.
+
+#:schema https://yazi-rs.github.io/schemas/keymap.json
+
+# Custom keybinds layered on top of the default keymap.
+# prepend = higher priority than default, append = lower priority than default.
+
+[mgr]
+prepend_keymap = [
+	# Enter a directory, or open a file if one is hovered
+	{ on = "<Enter>", run = "plugin smart-enter", desc = "Enter directory or open file" },
+	# Open a terminal (kitty) in the current directory, or the hovered directory
+	{ on = "i",       run = "plugin open-term",   desc = "Open terminal here" },
+	# Toggle the executable bit of the hovered file
+	{ on = "<C-x>",   run = "plugin chmod",       desc = "Toggle executable bit" },
+	# Extract the hovered/selected archive(s) here (requires 7zip)
+	{ on = "e",       run = "plugin extract-here", desc = "Extract archive here" },
+	# Create a zip from the hovered/selected file(s) (requires 7zip)
+	{ on = "E",       run = "plugin compress",    desc = "Compress to archive" },
+]
+append_keymap = [
+	# Bookmarks
+	{ on = [ "g", "." ], run = "cd ~/.local/share/dotfile", desc = "Go to dotfiles" },
+	{ on = [ "g", "t" ], run = "cd /tmp",                    desc = "Go to /tmp" },
+	{ on = [ "g", "s" ], run = "cd ~/.local/share/dotfile/scripts", desc = "Go to dotfiles scripts" },
+]

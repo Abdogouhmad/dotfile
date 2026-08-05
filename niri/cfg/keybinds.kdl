@@ -34,7 +34,7 @@ binds {
     Mod+Shift+Q      hotkey-overlay-title="Session Menu"  { spawn-sh "qs -c noctalia-shell ipc call sessionMenu toggle"; }
     Mod+M            hotkey-overlay-title="Spotify"       { spawn "spotify"; }
     Mod+ALT+T        hotkey-overlay-title="Herdr"         { spawn "kitty" "--class=herdr" "bash" "-c" "herdr"; }
-    Mod+E            hotkey-overlay-title="File Manager"  { spawn "nautilus"; } // swap for your preferred file manager
+    Mod+E            hotkey-overlay-title="File Manager"  { spawn "kitty" "--class=file-manager" "yazi"; }
     Mod+V            hotkey-overlay-title="Vesktop"       { spawn "vesktop";  }
     Mod+G            hotkey-overlay-title="Telegram"       { spawn "Telegram";  }
 

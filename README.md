@@ -20,6 +20,8 @@ Configs are symlinked directly from `~/.config/` into this repo. Edit in `~/.con
 | herdr   | `herdr/config.toml`               | `~/.config/herdr/config.toml`        |
 | zed     | `zed/settings.json`               | `~/.config/zed/settings.json`        |
 | zed     | `zed/noctalia.json`               | `~/.config/zed/themes/noctalia.json` |
+| yazi    | `yazi/`                           | `~/.config/yazi`                     |
+| fastfetch | `fastfetch/`                    | `~/.config/fastfetch`                |
 
 ## Setup on a New Machine
 
@@ -55,7 +57,45 @@ rm ~/.config/zed/settings.json
 ln -s ~/.local/share/dotfile/zed/settings.json ~/.config/zed/settings.json
 rm ~/.config/zed/themes/noctalia.json
 ln -s ~/.local/share/dotfile/zed/noctalia.json ~/.config/zed/themes/noctalia.json
+
+# yazi
+rm -rf ~/.config/yazi
+ln -s ~/.local/share/dotfile/yazi ~/.config/yazi
+
+# fastfetch
+rm -rf ~/.config/fastfetch
+ln -s ~/.local/share/dotfile/fastfetch ~/.config/fastfetch
 ```
+
+## Yazi Keybinds
+
+Custom keybinds (`yazi/keymap.toml`) layered on the defaults:
+
+| Key      | Action                                   |
+|----------|------------------------------------------|
+| `<Enter>`| Enter directory, or open hovered file    |
+| `i`      | Open a terminal (kitty) here             |
+| `<C-x>`  | Toggle the executable bit of a file      |
+| `e`      | Extract the hovered/selected archive here|
+| `E`      | Compress hovered/selected into a `.zip`  |
+| `g .`    | Go to dotfiles                           |
+| `g t`    | Go to /tmp                               |
+| `g s`    | Go to dotfiles scripts                   |
+
+Archive preview (content of zipped files in the preview pane), `e`/`E`,
+and Enter-on-archive all need 7-zip: `sudo pacman -S 7zip` (already in `step.sh`).
+
+Custom plugins live in `yazi/plugins/` (`smart-enter`, `open-term`, `chmod`, `extract-here`, `compress`).
+`extract-here` is named to avoid yazi's reserved built-in plugin names (the built-in `extract` stays used by Enter).
+
+## Image preview
+
+Runs in kitty, so image preview uses the native kitty graphics protocol (no extra
+tools for png/jpg/gif/webp). Extra preloaders need (all already in `step.sh`):
+
+- `imagemagick` - avif/heic/jxl
+- `ffmpeg` - video frame preview
+- `poppler` - PDF preview (`pdftoppm`)
 
 ## Scripts
 

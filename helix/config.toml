@@ -116,6 +116,7 @@ A-b = "buffer_picker"              # Show all buffers (picker)
 
 # ==== QUICK ACTIONS ====
 A-w = ":w"        # Save
+A-r = ":sh cmake --build ~/Desktop/raqim/build -j > /tmp/raqim-build.log 2>&1 && ~/Desktop/raqim/build/raqim > /tmp/raqim-run.log 2>&1 &"  # Build & run Qt app
 A-q = ":quit"     # Quit
 A-Q = ":quit!"    # Force quit
 K = "insert_newline"
